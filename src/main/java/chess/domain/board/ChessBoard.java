@@ -12,7 +12,8 @@ import java.util.stream.Collectors;
 
 public class ChessBoard {
 
-    private final List<Piece> pieces;
+    private List<Piece> pieces;
+    private List<Piece> snapshot;
 
     private ChessBoard(final List<Piece> pieces) {
         this.pieces = pieces;
@@ -25,6 +26,7 @@ public class ChessBoard {
     public void movePiece(final Turn turn, final PiecePosition source, final PiecePosition destination) {
         final Piece piece = findByPosition(source).orElseThrow(() -> new IllegalArgumentException("해당 위치에 존재하는 피스가 없습니다."));
         validate(turn, destination, piece);
+        snapshot = pieces();
         removeAndMove(destination, piece);
     }
 
@@ -99,6 +101,10 @@ public class ChessBoard {
     public boolean existByPosition(final PiecePosition destination) {
         return pieces.stream()
                 .anyMatch(piece -> piece.existIn(destination));
+    }
+
+    public void restore() {
+        pieces = snapshot;
     }
 
     public List<Piece> pieces() {

@@ -11,6 +11,7 @@ public class Checkmate extends InitializedGameState {
 
     protected Checkmate(final ChessBoard chessBoard, final Turn turn) {
         super(chessBoard);
+        System.out.println("현제 차례 " + turn.color());
         this.turn = turn;
     }
 
@@ -18,37 +19,19 @@ public class Checkmate extends InitializedGameState {
     public GameState movePiece(final PiecePosition source, final PiecePosition destination) {
         final King king = chessBoard.findKing(turn.color());
 
-        if (!isKingAvoidKill(destination, king)) {
-            return new End(chessBoard);
-        }
-
         if (!king.existIn(source)) {
             throw new IllegalArgumentException("체크메이트 상태에서는 왕을 움직여야 합니다.");
         }
         chessBoard.movePiece(turn, source, destination);
-        return judgeNext(source, destination);
+        return judgeNext();
     }
 
-    private boolean isKingAvoidKill(final PiecePosition destination, final King king) {
-        for (final PiecePosition position : king.movablePaths()) {
-            chessBoard.movePiece(turn, position, destination);
-
-            if (!chessBoard.checkmatedBy(turn.change())) {
-                chessBoard.movePiece(turn, destination, position);
-                return true;
-            }
-
-            chessBoard.movePiece(turn, destination, position);
-        }
-        return false;
-    }
-
-    private InitializedGameState judgeNext(final PiecePosition source, final PiecePosition destination) {
+    private InitializedGameState judgeNext() {
         if (chessBoard.kingDie()) {
             return new End(chessBoard);
         }
         if (chessBoard.checkmatedBy(turn.change())) {
-            chessBoard.movePiece(turn, destination, source);  // 원상복구
+            chessBoard.restore();
             throw new IllegalArgumentException("여전히 체크메이트입니다.");
         }
         return new Running(chessBoard, turn.change());

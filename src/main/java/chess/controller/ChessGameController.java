@@ -28,6 +28,10 @@ public class ChessGameController {
             execute(chessGame);
         } catch (Exception e) {
             System.out.println("[ERROR] " + e.getMessage());
+
+            OutputView.showBoard(chessGame.pieces());
+            System.out.println();
+            System.out.println();
         }
     }
 

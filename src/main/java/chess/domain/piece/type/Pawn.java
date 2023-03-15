@@ -23,7 +23,9 @@ public class Pawn extends Piece {
             return WayPointsWithCondition.impossible();
         }
         if (!isMoved && isPawnSpecialDestination(path)) {
-            return WayPointsWithCondition.possible(path.wayPoints());
+            final List<PiecePosition> piecePositions = path.wayPoints();
+            piecePositions.add(path.destination());
+            return WayPointsWithCondition.possible(piecePositions);
         }
         return defaultMove(path);
     }

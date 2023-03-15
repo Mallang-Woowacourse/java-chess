@@ -21,6 +21,25 @@ public class Turn {
         return whiteTurn;
     }
 
+    public boolean incorrect(final Color color) {
+        return turn != color;
+    }
+
+    public boolean correct(final Color color) {
+        return turn == color;
+    }
+
+    public Color color() {
+        return turn;
+    }
+
+    public Color nextColor() {
+        if (equals(whiteTurn)) {
+            return Color.BLACK;
+        }
+        return Color.WHITE;
+    }
+
     @Override
     public boolean equals(final Object o) {
         if (this == o) return true;
@@ -32,9 +51,5 @@ public class Turn {
     @Override
     public int hashCode() {
         return Objects.hash(turn);
-    }
-
-    public boolean incorrect(final Color color) {
-        return turn != color;
     }
 }

@@ -1,9 +1,10 @@
 package chess.domain.board;
 
+import chess.domain.piece.Color;
 import chess.domain.piece.Piece;
-import chess.domain.piece.position.Condition;
 import chess.domain.piece.position.PiecePosition;
 import chess.domain.piece.position.WayPointsWithCondition;
+import chess.domain.piece.type.King;
 
 import java.util.List;
 import java.util.Optional;
@@ -22,57 +23,82 @@ public class ChessBoard {
     }
 
     public void movePiece(final Turn turn, final PiecePosition source, final PiecePosition destination) {
-        final Piece piece = get(source);
-        if (turn.incorrect(piece.color())) {
-            throw new IllegalArgumentException("상대 말 선택");
-        }
-
-        final WayPointsWithCondition wayPointsWithCondition = piece.wayPointsWithCondition(destination);
-
-        if (wayPointsWithCondition.condition() == Condition.IMPOSSIBLE) {
-            throw new IllegalArgumentException("움직일 수 없는 위치입니다");
-        }
-
-        if (wayPointsWithCondition.condition() == Condition.ONLY_DESTINATION_ENEMY) {
-            final Piece enemy = get(destination);
-            if (!piece.isEnemy(enemy)) {
-                throw new IllegalArgumentException("아군이 있는 위치로는 이동할 수 없습니다.");
-            }
-            piece.move(destination);
-            pieces.remove(enemy);
-        }
-
-        if (wayPointsWithCondition.condition() == Condition.POSSIBLE) {
-            if (wayPointsWithCondition.wayPoints().stream().anyMatch(it -> optGet(it).isPresent())) {
-                throw new IllegalArgumentException("경로 상에 말이 있어서 이동할 수 없습니다.");
-            }
-            final Optional<Piece> piece1 = optGet(destination);
-            if (piece1.isPresent()) {
-                final Piece piece2 = piece1.get();
-                if (!piece.isEnemy(piece2)) {
-                    throw new IllegalArgumentException("아군이 있는 위치로는 이동할 수 없습니다.");
-                }
-                piece.move(destination);
-                pieces.remove(piece2);
-            } else {
-                piece.move(destination);
-            }
-        }
-
-        turn.change();
+        final Piece piece = findByPosition(source).orElseThrow(() -> new IllegalArgumentException("해당 위치에 존재하는 피스가 없습니다."));
+        validate(turn, destination, piece);
+        removeAndMove(destination, piece);
     }
 
-    private Optional<Piece> optGet(final PiecePosition piecePosition) {
+    private void validate(final Turn turn, final PiecePosition destination, final Piece piece) {
+        validateChoicePiece(turn, piece);
+        validateDestinationIsSameTeam(destination, piece);
+        validateSatisfyCondition(destination, piece);
+    }
+
+    private void validateChoicePiece(final Turn turn, final Piece piece) {
+        if (turn.incorrect(piece.color())) {
+            throw new IllegalArgumentException("상대 말을 선택했습니다.");
+        }
+    }
+
+    private void validateDestinationIsSameTeam(final PiecePosition destination, final Piece piece) {
+        findByPosition(destination).ifPresent(des -> {
+            if (piece.isAlly(des)) {
+                throw new IllegalArgumentException("아군이 있는 위치로는 이동할 수 없습니다");
+            }
+        });
+    }
+
+    private void validateSatisfyCondition(final PiecePosition destination, final Piece piece) {
+        final WayPointsWithCondition wayPointsWithCondition = piece.wayPointsWithCondition(destination);
+        if (!wayPointsWithCondition.satisfy(this, piece, destination)) {
+            throw new IllegalArgumentException("말을 움직일 수 없는 상태입니다");
+        }
+    }
+
+    private void removeAndMove(final PiecePosition destination, final Piece piece) {
+        findByPosition(destination).ifPresent(pieces::remove);
+        piece.move(destination);
+    }
+
+    public boolean kingDie() {
+        return pieces.stream().filter(it -> it instanceof King).count() != 2;
+    }
+
+    public boolean checkmatedBy(final Turn turn) {
+        final King kingPosition = findKing(turn.nextColor());
+        return existKiller(kingPosition);
+    }
+
+    private boolean existKiller(final King enemy) {
+        return pieces.stream()
+                .anyMatch(it -> killable(it, enemy));
+    }
+
+    public boolean killable(final Piece piece, final Piece target) {
+        if (piece.isAlly(target)) {
+            return false;
+        }
+        final WayPointsWithCondition wayPointsWithCondition = piece.wayPointsWithCondition(target.piecePosition());
+        return wayPointsWithCondition.satisfy(this, piece, target.piecePosition());
+    }
+
+    public King findKing(final Color color) {
+        return pieces.stream().filter(it -> it instanceof King)
+                .filter(it -> it.color() == color)
+                .map(it -> (King) it)
+                .findAny()
+                .orElseThrow(IllegalArgumentException::new);
+    }
+
+    public Optional<Piece> findByPosition(final PiecePosition piecePosition) {
         return pieces.stream()
                 .filter(piece -> piece.existIn(piecePosition))
                 .findAny();
     }
 
-    public Piece get(final PiecePosition piecePosition) {
+    public boolean existByPosition(final PiecePosition destination) {
         return pieces.stream()
-                .filter(piece -> piece.existIn(piecePosition))
-                .findAny()
-                .orElseThrow(() -> new IllegalArgumentException("해당 위치에 존재하는 피스가 없습니다."));
+                .anyMatch(piece -> piece.existIn(destination));
     }
 
     public List<Piece> pieces() {

@@ -52,8 +52,9 @@ public class Pawn extends Piece {
         return WayPointsWithCondition.possible(List.of(path.destination()));
     }
 
+    @Override
     public void move(final PiecePosition piecePosition) {
-        this.piecePosition = piecePosition;
+        super.move(piecePosition);
         this.isMoved = true;
     }
 }

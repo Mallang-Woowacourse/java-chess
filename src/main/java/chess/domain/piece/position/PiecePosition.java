@@ -32,6 +32,15 @@ public class PiecePosition {
         return PiecePosition.of(rank.plus(direction.rankUnit()), file.plus(direction.fileUnit()));
     }
 
+    public boolean movable(final Direction direction) {
+        try {
+            PiecePosition.of(rank.plus(direction.rankUnit()), file.plus(direction.fileUnit()));
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
     public Direction direction(final PiecePosition destination) {
         return Direction.byDisplacement(rankDistance(destination), fileDistance(destination));
     }

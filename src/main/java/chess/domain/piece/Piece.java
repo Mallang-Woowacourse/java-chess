@@ -45,6 +45,10 @@ public abstract class Piece implements Cloneable {
         return color != enemy.color;
     }
 
+    public boolean isAlly(final Piece piece) {
+        return color == piece.color;
+    }
+
     public void move(final PiecePosition destination) {
         this.piecePosition = destination;
     }

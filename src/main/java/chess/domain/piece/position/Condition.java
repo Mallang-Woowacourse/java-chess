@@ -5,4 +5,12 @@ public enum Condition {
     POSSIBLE,
     ONLY_DESTINATION_ENEMY,
     ;
+
+    public boolean impossible() {
+        return this == IMPOSSIBLE;
+    }
+
+    public boolean onlyDestinationEnemy() {
+        return this == ONLY_DESTINATION_ENEMY;
+    }
 }

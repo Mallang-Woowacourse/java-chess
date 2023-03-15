@@ -11,7 +11,6 @@ public class Running extends InitializedGameState {
 
     public Running(final ChessBoard chessBoard, final Turn turn) {
         super(chessBoard);
-        System.out.println("현제 차례 " + turn.color());
         this.turn = turn;
     }
 

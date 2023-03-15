@@ -17,6 +17,11 @@ public class Running extends InitializedGameState {
     public GameState movePiece(final PiecePosition source, final PiecePosition destination) {
         chessBoard.movePiece(turn, source, destination);
 
+        if (chessBoard.checkmatedBy(turn.change())) {
+            chessBoard.movePiece(turn, destination, source);
+            throw new IllegalArgumentException("해당 위치는 체크메이트되기 때문에 이동할 수 없습니다.");
+        }
+
         return judgeNext();
     }
 

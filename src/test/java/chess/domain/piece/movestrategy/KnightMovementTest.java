@@ -101,7 +101,7 @@ class KnightMovementTest {
     void 적군을_죽일_수_있다() {
         // given
         final PiecePosition dest = PiecePosition.of("f6");
-        final Piece enemy = new Piece(Color.BLACK, dest, new RookMovementStrategy());
+        final Piece enemy = new Piece(Color.BLACK, dest, new RookMovementStrategyDefault());
 
         // when & then
         assertDoesNotThrow(() -> movement.validateMove(source, dest, enemy));

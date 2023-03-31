@@ -3,7 +3,7 @@ package chess.infrastructure.persistence.entity;
 import chess.domain.piece.Color;
 import chess.domain.piece.MovementType;
 import chess.domain.piece.Piece;
-import chess.domain.piece.movestrategy.KingMovementStrategy;
+import chess.domain.piece.movestrategy.KingMovementStrategyDefault;
 import chess.domain.piece.position.PiecePosition;
 import chess.infrastructure.persistence.mapper.PieceMapper;
 import org.junit.jupiter.api.DisplayName;
@@ -22,7 +22,7 @@ class PieceEntityTest {
     @Test
     void Piece_로부터_생성될_수_있다() {
         // given
-        final Piece piece = new Piece(Color.WHITE, PiecePosition.of("d2"), new KingMovementStrategy());
+        final Piece piece = new Piece(Color.WHITE, PiecePosition.of("d2"), new KingMovementStrategyDefault());
 
         // when
         final PieceEntity pieceEntity = PieceMapper.fromDomain(piece, 2L);

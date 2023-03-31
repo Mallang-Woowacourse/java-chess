@@ -2,16 +2,16 @@ package chess.domain.piece.movestrategy.pawn;
 
 import chess.domain.piece.MovementType;
 import chess.domain.piece.Piece;
-import chess.domain.piece.movestrategy.AbstractPieceMovementStrategy;
+import chess.domain.piece.movestrategy.DefaultAbstractPieceMovementStrategy;
 import chess.domain.piece.position.File;
 import chess.domain.piece.position.PiecePosition;
 import chess.domain.piece.position.Rank;
 
-public abstract class PawnMovementStrategy extends AbstractPieceMovementStrategy {
+public abstract class PawnMovementStrategyDefault extends DefaultAbstractPieceMovementStrategy {
 
     private final PiecePosition permitTwoMoveRankPosition;
 
-    protected PawnMovementStrategy(final MovementType movementType, final Rank permitTwoMoveRank) {
+    protected PawnMovementStrategyDefault(final MovementType movementType, final Rank permitTwoMoveRank) {
         super(movementType);
         this.permitTwoMoveRankPosition = PiecePosition.of(permitTwoMoveRank, File.from(File.MIN));
     }

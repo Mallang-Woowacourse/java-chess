@@ -21,7 +21,7 @@ class AbstractMovementStrategyTest {
     @Test
     void 올바른_경로가_아니면_예외가_발생한다() {
         // given
-        final PieceMovementStrategy strategy = new AbstractPieceMovementStrategy(MovementType.BLACK_PAWN) {
+        final PieceMovementStrategy strategy = new DefaultAbstractPieceMovementStrategy(MovementType.BLACK_PAWN) {
 
             @Override
             protected void validateMoveWithNoAlly(final PiecePosition source,
@@ -40,7 +40,7 @@ class AbstractMovementStrategyTest {
     @Test
     void 올바른_경로라면_경유지를_반환한다() {
         // given
-        final PieceMovementStrategy strategy = new AbstractPieceMovementStrategy(MovementType.BLACK_PAWN) {
+        final PieceMovementStrategy strategy = new DefaultAbstractPieceMovementStrategy(MovementType.BLACK_PAWN) {
 
             @Override
             protected void validateMoveWithNoAlly(final PiecePosition source,

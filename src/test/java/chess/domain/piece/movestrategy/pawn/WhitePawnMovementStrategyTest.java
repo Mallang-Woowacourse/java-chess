@@ -14,17 +14,17 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @SuppressWarnings("NonAsciiCharacters")
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
-@DisplayName("WhitePawnMovementStrategy 은")
+@DisplayName("WhitePawnMovementStrategyDefault 은")
 class WhitePawnMovementStrategyTest {
 
     public Piece piece(final Color color, final PiecePosition piecePosition) {
-        return new Piece(color, piecePosition, new BlackPawnMovementStrategy(Rank.from(7)));
+        return new Piece(color, piecePosition, new BlackPawnMovementStrategyDefault(Rank.from(7)));
     }
 
     @Nested
     class 남쪽_이동_불가_테스트 {
 
-        private final PawnMovementStrategy pawnMovement = new WhitePawnMovementStrategy(Rank.from(4));
+        private final PawnMovementStrategyDefault pawnMovement = new WhitePawnMovementStrategyDefault(Rank.from(4));
 
         @Test
         void 직선_한_칸_이동_불가() {

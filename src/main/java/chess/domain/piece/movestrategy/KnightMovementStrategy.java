@@ -4,27 +4,14 @@ import chess.domain.piece.MovementType;
 import chess.domain.piece.Piece;
 import chess.domain.piece.position.PiecePosition;
 
-import java.util.Collections;
-import java.util.List;
-
-public class KnightMovementStrategy extends AbstractPieceMovementStrategy {
+public class KnightMovementStrategy extends JumbleAbstractPieceMovementStrategy {
 
     public KnightMovementStrategy() {
         super(MovementType.KNIGHT);
     }
 
     @Override
-    public List<PiecePosition> waypoints(final PiecePosition source,
-                                         final PiecePosition destination,
-                                         final Piece nullableEnemy) {
-        validateMove(source, destination, nullableEnemy);
-        return Collections.emptyList();
-    }
-
-    @Override
-    protected void validateMoveWithNoAlly(final PiecePosition source,
-                                          final PiecePosition destination,
-                                          final Piece nullableEnemy) {
+    protected void validateMoveWithNoAlly(final PiecePosition source, final PiecePosition destination, final Piece nullableEnemy) {
         if (Math.abs(source.fileInterval(destination)) == 1
                 && Math.abs(source.rankInterval(destination)) == 2) {
             return;

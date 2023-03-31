@@ -19,10 +19,10 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 @SuppressWarnings("NonAsciiCharacters")
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
-@DisplayName("KingMovementStrategy 은")
+@DisplayName("KingMovementStrategyDefault 은")
 class KingMovementTest {
 
-    private final PieceMovementStrategy movement = new KingMovementStrategy();
+    private final PieceMovementStrategy movement = new KingMovementStrategyDefault();
     private final PiecePosition source = PiecePosition.of("e4");
 
     @Nested
@@ -104,7 +104,7 @@ class KingMovementTest {
     void 적군을_죽일_수_있다() {
         // given
         final PiecePosition dest = PiecePosition.of("e3");
-        final Piece enemy = new Piece(Color.BLACK, dest, new RookMovementStrategy());
+        final Piece enemy = new Piece(Color.BLACK, dest, new RookMovementStrategyDefault());
 
         // when & then
         assertDoesNotThrow(() -> movement.validateMove(source, dest, enemy));

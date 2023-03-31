@@ -3,14 +3,14 @@ package chess.infrastructure.persistence.mapper;
 import chess.domain.piece.Color;
 import chess.domain.piece.MovementType;
 import chess.domain.piece.Piece;
-import chess.domain.piece.movestrategy.BishopMovementStrategy;
-import chess.domain.piece.movestrategy.KingMovementStrategy;
+import chess.domain.piece.movestrategy.BishopMovementStrategyDefault;
+import chess.domain.piece.movestrategy.KingMovementStrategyDefault;
 import chess.domain.piece.movestrategy.KnightMovementStrategy;
 import chess.domain.piece.movestrategy.PieceMovementStrategy;
-import chess.domain.piece.movestrategy.QueenMovementStrategy;
-import chess.domain.piece.movestrategy.RookMovementStrategy;
-import chess.domain.piece.movestrategy.pawn.BlackPawnMovementStrategy;
-import chess.domain.piece.movestrategy.pawn.WhitePawnMovementStrategy;
+import chess.domain.piece.movestrategy.QueenMovementStrategyDefault;
+import chess.domain.piece.movestrategy.RookMovementStrategyDefault;
+import chess.domain.piece.movestrategy.pawn.BlackPawnMovementStrategyDefault;
+import chess.domain.piece.movestrategy.pawn.WhitePawnMovementStrategyDefault;
 import chess.domain.piece.position.File;
 import chess.domain.piece.position.PiecePosition;
 import chess.domain.piece.position.Rank;
@@ -21,13 +21,13 @@ import java.util.Map;
 public class PieceMapper {
 
     private static final Map<MovementType, PieceMovementStrategy> strategyMap = Map.of(
-            MovementType.KING, new KingMovementStrategy(),
-            MovementType.QUEEN, new QueenMovementStrategy(),
-            MovementType.BISHOP, new BishopMovementStrategy(),
+            MovementType.KING, new KingMovementStrategyDefault(),
+            MovementType.QUEEN, new QueenMovementStrategyDefault(),
+            MovementType.BISHOP, new BishopMovementStrategyDefault(),
             MovementType.KNIGHT, new KnightMovementStrategy(),
-            MovementType.ROOK, new RookMovementStrategy(),
-            MovementType.BLACK_PAWN, new BlackPawnMovementStrategy(),
-            MovementType.WHITE_PAWN, new WhitePawnMovementStrategy()
+            MovementType.ROOK, new RookMovementStrategyDefault(),
+            MovementType.BLACK_PAWN, new BlackPawnMovementStrategyDefault(),
+            MovementType.WHITE_PAWN, new WhitePawnMovementStrategyDefault()
     );
 
     public static PieceEntity fromDomain(final Piece piece, final Long chessGameId) {

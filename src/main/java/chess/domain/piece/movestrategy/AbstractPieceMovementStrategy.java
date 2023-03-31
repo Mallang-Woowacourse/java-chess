@@ -4,7 +4,6 @@ import chess.domain.piece.MovementType;
 import chess.domain.piece.Piece;
 import chess.domain.piece.position.PiecePosition;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public abstract class AbstractPieceMovementStrategy implements PieceMovementStrategy {
@@ -16,19 +15,15 @@ public abstract class AbstractPieceMovementStrategy implements PieceMovementStra
     }
 
     @Override
-    public List<PiecePosition> waypoints(final PiecePosition source,
-                                         final PiecePosition destination,
-                                         final Piece nullableEnemy) {
+    public final List<PiecePosition> waypoints(final PiecePosition source,
+                                               final PiecePosition destination,
+                                               final Piece nullableEnemy) {
         validateMove(source, destination, nullableEnemy);
-        final List<PiecePosition> waypoints = new ArrayList<>();
-        PiecePosition current = source;
-        while (!current.equals(destination)) {
-            current = current.move(current.direction(destination));
-            waypoints.add(current);
-        }
-        waypoints.remove(destination);
-        return waypoints;
+        return waypointsAsType(source, destination);
     }
+
+    protected abstract List<PiecePosition> waypointsAsType(final PiecePosition source,
+                                                           final PiecePosition destination);
 
     @Override
     public final void validateMove(final PiecePosition source,
@@ -49,7 +44,7 @@ public abstract class AbstractPieceMovementStrategy implements PieceMovementStra
                                                    final Piece nullableEnemy);
 
     @Override
-    public MovementType type() {
+    public final MovementType type() {
         return type;
     }
 

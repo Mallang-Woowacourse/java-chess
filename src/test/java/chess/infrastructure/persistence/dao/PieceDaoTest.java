@@ -2,13 +2,13 @@ package chess.infrastructure.persistence.dao;
 
 import chess.domain.board.ChessBoardFactory;
 import chess.domain.piece.Piece;
-import chess.domain.piece.movestrategy.BishopMovementStrategy;
-import chess.domain.piece.movestrategy.KingMovementStrategy;
+import chess.domain.piece.movestrategy.BishopMovementStrategyDefault;
+import chess.domain.piece.movestrategy.KingMovementStrategyDefault;
 import chess.domain.piece.movestrategy.KnightMovementStrategy;
-import chess.domain.piece.movestrategy.QueenMovementStrategy;
-import chess.domain.piece.movestrategy.RookMovementStrategy;
-import chess.domain.piece.movestrategy.pawn.BlackPawnMovementStrategy;
-import chess.domain.piece.movestrategy.pawn.WhitePawnMovementStrategy;
+import chess.domain.piece.movestrategy.QueenMovementStrategyDefault;
+import chess.domain.piece.movestrategy.RookMovementStrategyDefault;
+import chess.domain.piece.movestrategy.pawn.BlackPawnMovementStrategyDefault;
+import chess.domain.piece.movestrategy.pawn.WhitePawnMovementStrategyDefault;
 import chess.infrastructure.persistence.entity.ChessGameEntity;
 import chess.infrastructure.persistence.entity.PieceEntity;
 import chess.infrastructure.persistence.mapper.PieceMapper;
@@ -40,7 +40,7 @@ class PieceDaoTest {
     void setUp() {
         pieceDao.deleteAll();
         chessGameDao.deleteAll();
-        final ChessGameEntity chessGameEntity = new ChessGameEntity(null, "MovePiece","WHITE");
+        final ChessGameEntity chessGameEntity = new ChessGameEntity(null, "MovePiece", "WHITE");
         chessGameDao.save(chessGameEntity);
         chessGameId = chessGameEntity.id();
     }
@@ -76,13 +76,13 @@ class PieceDaoTest {
 
         // then
         assertAll(
-                () -> assertThat(pieceTypeMap.get(WhitePawnMovementStrategy.class).size()).isEqualTo(8),
-                () -> assertThat(pieceTypeMap.get(BlackPawnMovementStrategy.class).size()).isEqualTo(8),
+                () -> assertThat(pieceTypeMap.get(WhitePawnMovementStrategyDefault.class).size()).isEqualTo(8),
+                () -> assertThat(pieceTypeMap.get(BlackPawnMovementStrategyDefault.class).size()).isEqualTo(8),
                 () -> assertThat(pieceTypeMap.get(KnightMovementStrategy.class).size()).isEqualTo(4),
-                () -> assertThat(pieceTypeMap.get(RookMovementStrategy.class).size()).isEqualTo(4),
-                () -> assertThat(pieceTypeMap.get(BishopMovementStrategy.class).size()).isEqualTo(4),
-                () -> assertThat(pieceTypeMap.get(KingMovementStrategy.class).size()).isEqualTo(2),
-                () -> assertThat(pieceTypeMap.get(QueenMovementStrategy.class).size()).isEqualTo(2)
+                () -> assertThat(pieceTypeMap.get(RookMovementStrategyDefault.class).size()).isEqualTo(4),
+                () -> assertThat(pieceTypeMap.get(BishopMovementStrategyDefault.class).size()).isEqualTo(4),
+                () -> assertThat(pieceTypeMap.get(KingMovementStrategyDefault.class).size()).isEqualTo(2),
+                () -> assertThat(pieceTypeMap.get(QueenMovementStrategyDefault.class).size()).isEqualTo(2)
         );
     }
 

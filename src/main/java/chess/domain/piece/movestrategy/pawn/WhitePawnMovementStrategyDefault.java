@@ -4,15 +4,15 @@ import chess.domain.piece.MovementType;
 import chess.domain.piece.position.PiecePosition;
 import chess.domain.piece.position.Rank;
 
-public class WhitePawnMovementStrategy extends PawnMovementStrategy {
+public class WhitePawnMovementStrategyDefault extends PawnMovementStrategyDefault {
 
     private static final Rank DEFAULT_PERMIT_TWO_RANK = Rank.from(2);
 
-    public WhitePawnMovementStrategy() {
+    public WhitePawnMovementStrategyDefault() {
         super(MovementType.WHITE_PAWN, DEFAULT_PERMIT_TWO_RANK);
     }
 
-    public WhitePawnMovementStrategy(final Rank permitTwoMoveRank) {
+    public WhitePawnMovementStrategyDefault(final Rank permitTwoMoveRank) {
         super(MovementType.WHITE_PAWN, permitTwoMoveRank);
     }
 

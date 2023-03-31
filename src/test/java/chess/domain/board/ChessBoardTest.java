@@ -2,14 +2,14 @@ package chess.domain.board;
 
 import chess.domain.piece.Color;
 import chess.domain.piece.Piece;
-import chess.domain.piece.movestrategy.BishopMovementStrategy;
-import chess.domain.piece.movestrategy.KingMovementStrategy;
+import chess.domain.piece.movestrategy.BishopMovementStrategyDefault;
+import chess.domain.piece.movestrategy.KingMovementStrategyDefault;
 import chess.domain.piece.movestrategy.KnightMovementStrategy;
-import chess.domain.piece.movestrategy.QueenMovementStrategy;
-import chess.domain.piece.movestrategy.RookMovementStrategy;
-import chess.domain.piece.movestrategy.pawn.BlackPawnMovementStrategy;
-import chess.domain.piece.movestrategy.pawn.PawnMovementStrategy;
-import chess.domain.piece.movestrategy.pawn.WhitePawnMovementStrategy;
+import chess.domain.piece.movestrategy.QueenMovementStrategyDefault;
+import chess.domain.piece.movestrategy.RookMovementStrategyDefault;
+import chess.domain.piece.movestrategy.pawn.BlackPawnMovementStrategyDefault;
+import chess.domain.piece.movestrategy.pawn.PawnMovementStrategyDefault;
+import chess.domain.piece.movestrategy.pawn.WhitePawnMovementStrategyDefault;
 import chess.domain.piece.position.PiecePosition;
 import chess.domain.piece.position.Rank;
 import org.junit.jupiter.api.BeforeEach;
@@ -56,25 +56,25 @@ class ChessBoardTest {
     @Test
     void 기본_체스_규칙에_맞게_생성된다() {
         // then
-        assertPiece(chessBoard, 1, 'a', WHITE, RookMovementStrategy.class);
+        assertPiece(chessBoard, 1, 'a', WHITE, RookMovementStrategyDefault.class);
         assertPiece(chessBoard, 1, 'b', WHITE, KnightMovementStrategy.class);
-        assertPiece(chessBoard, 1, 'c', WHITE, BishopMovementStrategy.class);
-        assertPiece(chessBoard, 1, 'd', WHITE, QueenMovementStrategy.class);
-        assertPiece(chessBoard, 1, 'e', WHITE, KingMovementStrategy.class);
-        assertPiece(chessBoard, 1, 'f', WHITE, BishopMovementStrategy.class);
+        assertPiece(chessBoard, 1, 'c', WHITE, BishopMovementStrategyDefault.class);
+        assertPiece(chessBoard, 1, 'd', WHITE, QueenMovementStrategyDefault.class);
+        assertPiece(chessBoard, 1, 'e', WHITE, KingMovementStrategyDefault.class);
+        assertPiece(chessBoard, 1, 'f', WHITE, BishopMovementStrategyDefault.class);
         assertPiece(chessBoard, 1, 'g', WHITE, KnightMovementStrategy.class);
-        assertPiece(chessBoard, 1, 'h', WHITE, RookMovementStrategy.class);
-        assertPiece(chessBoard, 8, 'a', Color.BLACK, RookMovementStrategy.class);
+        assertPiece(chessBoard, 1, 'h', WHITE, RookMovementStrategyDefault.class);
+        assertPiece(chessBoard, 8, 'a', Color.BLACK, RookMovementStrategyDefault.class);
         assertPiece(chessBoard, 8, 'b', Color.BLACK, KnightMovementStrategy.class);
-        assertPiece(chessBoard, 8, 'c', Color.BLACK, BishopMovementStrategy.class);
-        assertPiece(chessBoard, 8, 'd', Color.BLACK, QueenMovementStrategy.class);
-        assertPiece(chessBoard, 8, 'e', Color.BLACK, KingMovementStrategy.class);
-        assertPiece(chessBoard, 8, 'f', Color.BLACK, BishopMovementStrategy.class);
+        assertPiece(chessBoard, 8, 'c', Color.BLACK, BishopMovementStrategyDefault.class);
+        assertPiece(chessBoard, 8, 'd', Color.BLACK, QueenMovementStrategyDefault.class);
+        assertPiece(chessBoard, 8, 'e', Color.BLACK, KingMovementStrategyDefault.class);
+        assertPiece(chessBoard, 8, 'f', Color.BLACK, BishopMovementStrategyDefault.class);
         assertPiece(chessBoard, 8, 'g', Color.BLACK, KnightMovementStrategy.class);
-        assertPiece(chessBoard, 8, 'h', Color.BLACK, RookMovementStrategy.class);
+        assertPiece(chessBoard, 8, 'h', Color.BLACK, RookMovementStrategyDefault.class);
         for (char file = 'a'; file <= 'h'; file++) {
-            assertPiece(chessBoard, 2, file, WHITE, PawnMovementStrategy.class);
-            assertPiece(chessBoard, 7, file, Color.BLACK, PawnMovementStrategy.class);
+            assertPiece(chessBoard, 2, file, WHITE, PawnMovementStrategyDefault.class);
+            assertPiece(chessBoard, 7, file, Color.BLACK, PawnMovementStrategyDefault.class);
         }
     }
 
@@ -100,7 +100,7 @@ class ChessBoardTest {
                 .collect(toMap(Piece::piecePosition, Function.identity()));
         assertThat(pieceMap.get(PiecePosition.of(2, 'b'))).isNull();
         assertThat(pieceMap.get(PiecePosition.of(3, 'b')).pieceMovementStrategy())
-                .isInstanceOf(PawnMovementStrategy.class);
+                .isInstanceOf(PawnMovementStrategyDefault.class);
     }
 
     @Test
@@ -254,10 +254,10 @@ class ChessBoardTest {
         final ChessBoard chessBoard = ChessBoard.from(List.of(
                 new Piece(BLACK,
                         PiecePosition.of("d1"),
-                        new KingMovementStrategy()),
+                        new KingMovementStrategyDefault()),
                 new Piece(WHITE,
                         PiecePosition.of("d7"),
-                        new KingMovementStrategy())
+                        new KingMovementStrategyDefault())
         ));
 
         // when & then
@@ -273,7 +273,7 @@ class ChessBoardTest {
         final ChessBoard chessBoard = ChessBoard.from(List.of(
                 new Piece(BLACK,
                         PiecePosition.of("d1"),
-                        new KingMovementStrategy())
+                        new KingMovementStrategyDefault())
         ));
 
         // when & then
@@ -314,55 +314,55 @@ class ChessBoardTest {
         ChessBoard chessBoard = ChessBoard.from(List.of(
                 new Piece(BLACK,
                         PiecePosition.of("b8"),
-                        new KingMovementStrategy()),
+                        new KingMovementStrategyDefault()),
                 new Piece(BLACK,
                         PiecePosition.of("c8"),
-                        new RookMovementStrategy()),
+                        new RookMovementStrategyDefault()),
                 new Piece(BLACK,
                         PiecePosition.of("a7"),
-                        new BlackPawnMovementStrategy(Rank.from(7))),
+                        new BlackPawnMovementStrategyDefault(Rank.from(7))),
                 new Piece(BLACK,
                         PiecePosition.of("c7"),
-                        new BlackPawnMovementStrategy(Rank.from(7))),
+                        new BlackPawnMovementStrategyDefault(Rank.from(7))),
                 new Piece(BLACK,
                         PiecePosition.of("d7"),
-                        new BishopMovementStrategy()),
+                        new BishopMovementStrategyDefault()),
                 new Piece(BLACK,
                         PiecePosition.of("b6"),
-                        new BlackPawnMovementStrategy(Rank.from(7))),
+                        new BlackPawnMovementStrategyDefault(Rank.from(7))),
                 new Piece(BLACK,
                         PiecePosition.of("e6"),
-                        new QueenMovementStrategy()),
+                        new QueenMovementStrategyDefault()),
                 new Piece(WHITE,
                         PiecePosition.of("f5"),
-                        new WhitePawnMovementStrategy(Rank.from(2))),
+                        new WhitePawnMovementStrategyDefault(Rank.from(2))),
                 new Piece(WHITE,
                         PiecePosition.of("f6"),
-                        new WhitePawnMovementStrategy(Rank.from(2))),
+                        new WhitePawnMovementStrategyDefault(Rank.from(2))),
                 new Piece(WHITE,
                         PiecePosition.of("f4"),
                         new KnightMovementStrategy()),
                 new Piece(WHITE,
                         PiecePosition.of("g4"),
-                        new QueenMovementStrategy()),
+                        new QueenMovementStrategyDefault()),
                 new Piece(BLACK,
                         PiecePosition.of("c3"),
-                        new BlackPawnMovementStrategy(Rank.from(7))),
+                        new BlackPawnMovementStrategyDefault(Rank.from(7))),
                 new Piece(WHITE,
                         PiecePosition.of("f3"),
-                        new WhitePawnMovementStrategy(Rank.from(2))),
+                        new WhitePawnMovementStrategyDefault(Rank.from(2))),
                 new Piece(WHITE,
                         PiecePosition.of("f2"),
-                        new WhitePawnMovementStrategy(Rank.from(2))),
+                        new WhitePawnMovementStrategyDefault(Rank.from(2))),
                 new Piece(WHITE,
                         PiecePosition.of("g2"),
-                        new WhitePawnMovementStrategy(Rank.from(2))),
+                        new WhitePawnMovementStrategyDefault(Rank.from(2))),
                 new Piece(WHITE,
                         PiecePosition.of("e1"),
-                        new RookMovementStrategy()),
+                        new RookMovementStrategyDefault()),
                 new Piece(WHITE,
                         PiecePosition.of("f1"),
-                        new KingMovementStrategy())
+                        new KingMovementStrategyDefault())
         ));
 
         // when
